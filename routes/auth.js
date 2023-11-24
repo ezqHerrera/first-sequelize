@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const { User } = require('../models/user');
+const User = require('../models/user');
 
 const {body} = require('express-validator');
 
@@ -42,14 +42,16 @@ router.post('/register',
         try {
             if (!(username && password && email)) {
                 res.status(400).json({
-                    msg: 'Todos los campos son obligatorios.'
+                    msg: 'Los campos de email, nombre y contraseña son obligatorios.'
                 })
-                const newUser = await User.create({username, password, email, avatar});
-                res.status(201).json({
-                    newUser
-                })
+                
             }
-        } catch(error) {
+			const newUser = await User.create({username, password, email, avatar});
+			res.status(201).json({
+				newUser
+			});
+			
+			} catch(error) {
             res.status(500).json({
                 msg: `Error en la base de datos: ${error}`
             });

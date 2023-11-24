@@ -23,7 +23,7 @@ sequelize.authenticate()
 });
 
 
-// Le decimos que serialice la información a json
+// Le decimos que serialice la información a Json
 app.use(express.json())
 app.use(cors());
 app.use(morgan());
