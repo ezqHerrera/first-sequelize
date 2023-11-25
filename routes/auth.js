@@ -39,17 +39,18 @@ router.post('/register',
 
     async(req, res) => {
         const {username, password, email, avatar} = req.body;
+		const salt = await bcrypt.genSalt(10);
+		const hashedPassword = await bcrypt.hash(password, salt);
         try {
             if (!(username && password && email)) {
                 res.status(400).json({
                     msg: 'Los campos de email, nombre y contraseña son obligatorios.'
                 })
-                
             }
-			const newUser = await User.create({username, password, email, avatar});
+			const newUser = await User.create({username, password: hashedPassword, email, avatar});
 			res.status(201).json({
 				newUser
-			});
+			})
 			
 			} catch(error) {
             res.status(500).json({
