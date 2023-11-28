@@ -22,10 +22,17 @@ sequelize.authenticate()
     console.error('Error al conectar con la base de datos: ', error);
 });
 
-
 // Le decimos que serialice la información a Json
 app.use(express.json())
+
 app.use(cors());
+// Acepta peticiones Ajax desde el puerto default de React
+app.use(function (req, res, next) {
+	res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+	next();
+});
+
 app.use(morgan());
 
 // Configurar rutas
