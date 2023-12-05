@@ -19,10 +19,15 @@ router.post('/login', async(req, res) => {
         if (!isPasswordValid) {
             return res.status(401).json({ message: 'Credenciales incorrectas' });
         }
-
+		
         const token = jwt.sign({ userId: user.id }, 'super-secret-key', {expiresIn: '1h'});
-
-        res.json({ token });
+        res.json(
+		{ 
+		
+		token:token, 
+		userId:user.id
+		
+		});
     } catch (error) {
         res.status(500).json({ msg: `error en el servidor: ${error}` });
     }
@@ -48,12 +53,8 @@ router.post('/register',
                 })
             }
 			const newUser = await User.create({username, password: hashedPassword, email, avatar});
-            // Inicia sesión luego de registrarse
-            const user = await User.findOne({where: {email}});
-            const token = jwt.sign({ userId: user.id }, 'super-secret-key', {expiresIn: '1h'});
 			res.status(201).json({
-				newUser,
-				token
+				newUser
 			});
 
 			} catch(error) {
