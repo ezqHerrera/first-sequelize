@@ -23,6 +23,7 @@ exports.createPost = async(req, res) => {
         await Post.create(newPost);
         res.status(201).json({
             ok: true,
+			newPost,
             msg: 'Se ha creado un nuevo post'
         })
     } catch (error) {
